@@ -18,7 +18,7 @@ pipeline {
         SONARSCANNER = 'sonarscanner'
         registryCredential = 'ecr:ap-south-1:AWS-Cred'
         appRegistry = '128965549293.dkr.ecr.ap-south-1.amazonaws.com/cdjenkins'
-        vprofileRegistry = "https://128965549293.dkr.ecr.ap-south-1.amazonaws.com"
+        cdjenkinsRegistry = "https://ap-south-1.console.aws.amazon.com/ecr/repositories/private/128965549293/cdjenkins?region=ap-south-1"
 
 
     }
@@ -100,7 +100,7 @@ pipeline {
         stage('Upload Docker Image'){
             steps {
                 script {
-                    docker.withRegistry( 'vprofileRegistry', registryCredential ) {
+                    docker.withRegistry( 'cdjenkinsRegistry', registryCredential ) {
                         dockerImage.push("$BUILD_NUMBER")
                         dockerImage.push('latest')
                     }
