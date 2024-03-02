@@ -19,8 +19,8 @@ pipeline {
         registryCredential = 'ecr:ap-south-1:AWS-Cred'
         appRegistry = '128965549293.dkr.ecr.ap-south-1.amazonaws.com/cdjenkins'
         vprofileRegistry = "https://128965549293.dkr.ecr.ap-south-1.amazonaws.com/cdjenkins"
-
-
+        cluster = "DevClusterAWS"
+        service = "DevClusterService"
     }
 
 
@@ -107,6 +107,13 @@ pipeline {
               }
             }
           }
+        }
+        stage('Deploy to ECS Cluster') {
+            steps {
+                withAWS(credentials: 'AWS-Cred', region: 'ap-south-1')
+                sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
+                
+            }
         }
 
     }
